@@ -1,89 +1,129 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300vh;
-        }
-        .qz {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 600px;
-            padding: 20px;
-            text-align: center;
-        }
-        .q {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: bold;
-        }
-        .opts {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            width: 100%;
-        }
-        .opt {
-            padding: 12px 20px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            width: 80%;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .opt:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .tm {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            color: #ff5722;
-        }
-        .rs {
-            font-size: 1.5em;
-            color: #4caf50;
-        }
-        .rst-btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1.2em;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-        .rst-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <link rel="stylesheet" href="styles.css">/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.quiz-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#quiz {
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 10px;
+}
+
+.answers {
+    list-style-type: none;
+    padding: 0;
+}
+
+.answers li {
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
 </head>
 <body>
-    <div class="qz">
-        <div class="tm">Time Left: <span id="t">30</span>s</div>
-        <div class="q">Question will appear here</div>
-        <div class="opts">
-        </div>
-        <div class="rs" style="display: none;">
-            Your score: <span id="sc">0</span>
-        </div>
-        <button class="rst-btn" style="display: none;">Restart Quiz</button>
+    <div class="quiz-container">
+        <div id="quiz"></div>
+        <button id="submit">Submit Quiz</button>
+        <div id="results"></div>
     </div>
-    <script defer src="intro.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+// script.js
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+
+const quizQuestions = [
+    {
+        question: "Which is the largest planet in our solar system?",
+        answers: {
+            a: "Earth",
+            b: "Jupiter",
+            c: "Mars"
+        },
+        correctAnswer: "b"
+    },
+    {
+        question: "What is the capital of France?",
+        answers: {
+            a: "Berlin",
+            b: "London",
+            c: "Paris"
+        },
+        correctAnswer: "c"
+    },
+    // Add more questions here
+];
+
+function buildQuiz() {
+    const output = [];
+    quizQuestions.forEach((currentQuestion, questionNumber) => {
+        const answers = [];
+        for (letter in currentQuestion.answers) {
+            answers.push(
+                `<label>
+                    <input type="radio" name="question${questionNumber}" value="${letter}">
+                    ${letter} :
+                    ${currentQuestion.answers[letter]}
+                </label>`
+            );
+        }
+        output.push(
+            `<div class="question">${currentQuestion.question}</div>
+            <div class="answers">${answers.join('')}</div>`
+        );
+    });
+    quizContainer.innerHTML = output.join('');
+}
+
+function showResults() {
+    const answerContainers = quizContainer.querySelectorAll('.answers');
+    let numCorrect = 0;
+    quizQuestions.forEach((currentQuestion, questionNumber) => {
+        const answerContainer = answerContainers[questionNumber];
+        const selector = `input[name=question${questionNumber}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+        if (userAnswer === currentQuestion.correctAnswer) {
+            numCorrect++;
+            answerContainers[questionNumber].style.color = 'green';
+        } else {
+            answerContainers[questionNumber].style.color = 'red';
+        }
+    });
+    resultsContainer.innerHTML = `You got ${numCorrect} out of ${quizQuestions.length} correct.`;
+}
+
+buildQuiz();
+submitButton.addEventListener('click', showResults);
+
 
