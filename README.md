@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 300vh;
         }
         .qz {
             background: #fff;
@@ -55,7 +55,6 @@
         .rs {
             font-size: 1.5em;
             color: #4caf50;
-            display: none;
         }
         .rst-btn {
             background-color: #007bff;
@@ -67,7 +66,6 @@
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.3s;
-            display: none;
         }
         .rst-btn:hover {
             background-color: #0056b3;
@@ -80,78 +78,12 @@
         <div class="q">Question will appear here</div>
         <div class="opts">
         </div>
-        <div class="rs">
+        <div class="rs" style="display: none;">
             Your score: <span id="sc">0</span>
         </div>
-        <button class="rst-btn">Restart Quiz</button>
+        <button class="rst-btn" style="display: none;">Restart Quiz</button>
     </div>
-    <script>
-        window.onload = function () {
-            const quiz = [
-                { q: "What is the capital of France?", opts: ["Berlin", "Madrid", "Paris", "Lisbon"], ans: "Paris" },
-                { q: "Which language is used for web development?", opts: ["Python", "HTML", "Java", "C++"], ans: "HTML" },
-                { q: "Who wrote 'Hamlet'?", opts: ["Charles Dickens", "William Shakespeare", "Mark Twain", 
-                "Jane Austen"], ans: "William Shakespeare" }
-            ];
-
-            let idx = 0, scr = 0, time = 30, timer;
-            const timeEl = document.getElementById('t');
-            const qEl = document.querySelector('.q');
-            const optsEl = document.querySelector('.opts');
-            const resEl = document.querySelector('.rs');
-            const scrEl = document.getElementById('sc');
-            const restartEl = document.querySelector('.rst-btn');
-
-            function loadQ() {
-                if (idx >= quiz.length) return endQ();
-                const qData = quiz[idx];
-                qEl.textContent = qData.q;
-                optsEl.innerHTML = '';
-                qData.opts.forEach((opt, i) => {
-                    const btn = document.createElement('button');
-                    btn.classList.add('opt');
-                    btn.textContent = `${i + 1}. ${opt}`;
-                    btn.onclick = () => checkA(opt);
-                    optsEl.appendChild(btn);
-                });
-            }
-
-            function checkA(opt) {
-                if (opt === quiz[idx].ans) scr++;
-                idx++;
-                loadQ();
-            }
-
-            function startT() {
-                timer = setInterval(() => {
-                    time--;
-                    timeEl.textContent = time;
-                    if (time <= 0) endQ();
-                }, 1000);
-            }
-
-            function endQ() {
-                clearInterval(timer);
-                qEl.style.display = 'none';
-                optsEl.style.display = 'none';
-                resEl.style.display = 'block';
-                scrEl.textContent = scr;
-                restartEl.style.display = 'block';
-            }
-
-            restartEl.addEventListener('click', () => {
-                idx = 0; scr = 0; time = 30;
-                timeEl.textContent = time;
-                qEl.style.display = 'block';
-                optsEl.style.display = 'block';
-                resEl.style.display = 'none';
-                restartEl.style.display = 'none';
-                loadQ();
-                startT();
-            });
-            loadQ();
-            startT();
-        };
-    </script>
+    <script defer src="intro.js"></script>
 </body>
 </html>
+
