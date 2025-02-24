@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Application</title>
-    <link rel="stylesheet" href="styles.css">/* styles.css */
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="quiz"></div>
+        <button id="submit">Submit Quiz</button>
+        <div id="results"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
 body {
     font-family: Arial, sans-serif;
 }
@@ -47,83 +57,9 @@ button {
 button:hover {
     background-color: #45a049;
 }
-
-</head>
-<body>
-    <div class="quiz-container">
-        <div id="quiz"></div>
-        <button id="submit">Submit Quiz</button>
-        <div id="results"></div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
-// script.js
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 
-const quizQuestions = [
-    {
-        question: "Which is the largest planet in our solar system?",
-        answers: {
-            a: "Earth",
-            b: "Jupiter",
-            c: "Mars"
-        },
-        correctAnswer: "b"
-    },
-    {
-        question: "What is the capital of France?",
-        answers: {
-            a: "Berlin",
-            b: "London",
-            c: "Paris"
-        },
-        correctAnswer: "c"
-    },
-    // Add more questions here
-];
-
-function buildQuiz() {
-    const output = [];
-    quizQuestions.forEach((currentQuestion, questionNumber) => {
-        const answers = [];
-        for (letter in currentQuestion.answers) {
-            answers.push(
-                `<label>
-                    <input type="radio" name="question${questionNumber}" value="${letter}">
-                    ${letter} :
-                    ${currentQuestion.answers[letter]}
-                </label>`
-            );
-        }
-        output.push(
-            `<div class="question">${currentQuestion.question}</div>
-            <div class="answers">${answers.join('')}</div>`
-        );
-    });
-    quizContainer.innerHTML = output.join('');
-}
-
-function showResults() {
-    const answerContainers = quizContainer.querySelectorAll('.answers');
-    let numCorrect = 0;
-    quizQuestions.forEach((currentQuestion, questionNumber) => {
-        const answerContainer = answerContainers[questionNumber];
-        const selector = `input[name=question${questionNumber}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-        if (userAnswer === currentQuestion.correctAnswer) {
-            numCorrect++;
-            answerContainers[questionNumber].style.color = 'green';
-        } else {
-            answerContainers[questionNumber].style.color = 'red';
-        }
-    });
-    resultsContainer.innerHTML = `You got ${numCorrect} out of ${quizQuestions.length} correct.`;
-}
-
-buildQuiz();
-submitButton.addEventListener('click', showResults);
-
+const quizQuestions
 
