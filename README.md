@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Application</title>
+    <title>Simple Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
         }
         .quiz-container {
-            width: 50%;
-            background: white;
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-        button {
+        .question {
+            margin-bottom: 15px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .btn {
             background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
@@ -29,88 +33,32 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #45a049;
-        }
-        .question {
-            font-size: 20px;
-            margin: 20px 0;
-        }
-        .options {
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div id="quiz"></div>
-        <button id="submit">Submit Quiz</button>
-        <div id="results"></div>
+        <h2>Simple Quiz</h2>
+
+        <div class="question">
+            <p>1. What is the capital of France?</p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="Paris"> Paris</li>
+                <li><input type="radio" name="q1" value="London"> London</li>
+                <li><input type="radio" name="q1" value="Berlin"> Berlin</li>
+            </ul>
+        </div>
+
+        <div class="question">
+            <p>2. What is 2 + 2?</p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="3"> 3</li>
+                <li><input type="radio" name="q2" value="4"> 4</li>
+                <li><input type="radio" name="q2" value="5"> 5</li>
+            </ul>
+        </div>
+
+        <button class="btn">Submit</button>
     </div>
-    <script>
-        const quizData = [
-            {
-                question: "What is the capital of France?",
-                options: ["Berlin", "Madrid", "Paris", "Lisbon"],
-                correct: "Paris"
-            },
-            {
-                question: "What is 2 + 2?",
-                options: ["3", "4", "5", "6"],
-                correct: "4"
-            },
-            // Add more questions here
-        ];
-
-        const quizContainer = document.getElementById('quiz');
-        const resultsContainer = document.getElementById('results');
-        const submitButton = document.getElementById('submit');
-
-        function buildQuiz() {
-            const output = [];
-
-            quizData.forEach((currentQuestion, questionIndex) => {
-                const options = [];
-
-                for (let letter in currentQuestion.options) {
-                    options.push(
-                        `<label>
-                            <input type="radio" name="question${questionIndex}" value="${currentQuestion.options[letter]}">
-                            ${currentQuestion.options[letter]}
-                        </label>`
-                    );
-                }
-
-                output.push(
-                    `<div class="question"> ${currentQuestion.question} </div>
-                    <div class="options"> ${options.join('')} </div>`
-                );
-            });
-
-            quizContainer.innerHTML = output.join('');
-        }
-
-        function showResults() {
-            const answerContainers = quizContainer.querySelectorAll('.options');
-
-            let numCorrect = 0;
-
-            quizData.forEach((currentQuestion, questionIndex) => {
-                const answerContainer = answerContainers[questionIndex];
-                const selector = `input[name=question${questionIndex}]:checked`;
-                const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-                if (userAnswer === currentQuestion.correct) {
-                    numCorrect++;
-                }
-            });
-
-            resultsContainer.innerHTML = `You got ${numCorrect} out of ${quizData.length} correct!`;
-        }
-
-        buildQuiz();
-        submitButton.addEventListener('click', showResults);
-    </script>
 </body>
 </html>
 
