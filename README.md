@@ -7,16 +7,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .quiz-container {
-            max-width: 600px;
-            margin: 0 auto;
+            background-color: white;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .quiz-container h2 {
+            text-align: center;
         }
         .question {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .options {
             list-style-type: none;
@@ -32,6 +44,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -61,6 +77,5 @@
     </div>
 </body>
 </html>
-
 
 
